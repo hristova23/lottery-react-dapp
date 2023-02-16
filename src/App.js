@@ -7,7 +7,7 @@ function App() {
   return (
     <>
     <Navbar/>
-    <Container maxWidth="sm">
+    <Container maxWidth="lg">
       <Box>
         <Stack direction="row" spacing={2} justifyContent="space-between">
           <Sidebar/>
