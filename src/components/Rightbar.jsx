@@ -8,11 +8,6 @@ function Rightbar() {
     <Box sx={{ width: 'auto' }}>
       <LotteryHistory />
       <PlayersList />
-      <Typography 
-        variant='h2'
-        sx={{my:4}}>
-        Pot: 0.28 Ether
-      </Typography>
     </Box>
   )
 }

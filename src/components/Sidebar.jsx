@@ -12,6 +12,11 @@ function Sidebar() {
         <Typography variant='h5'>Admin only: Pick a winner:</Typography>
         <Button variant="contained">Pick winner    </Button>
       </Box>
+      <Typography 
+        variant='h2'
+        sx={{my:4}}>
+        Pot: 0.28 Ether
+      </Typography>
     </Box>
   )
 }
