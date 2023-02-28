@@ -1,12 +1,12 @@
 import { Box, Button, Typography } from '@mui/material'
 import React from 'react'
 
-function Sidebar({lotteryBalance}) {
+function Sidebar({lotteryBalance, enterLotteryHandler}) {
   return (
     <Box sx={{mt:4}}>
       <Box sx={{mt:2}}>
         <Typography variant='h5'>Enter the lottery by sending 0.01 Ether: </Typography>
-        <Button variant="contained">Enter now</Button>
+        <Button onClick={enterLotteryHandler} variant="contained">Enter now</Button>
       </Box>
       <Box sx={{mt:2}}>
         <Typography variant='h5'>Admin only: Pick a winner:</Typography>

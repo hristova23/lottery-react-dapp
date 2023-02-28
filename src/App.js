@@ -11,18 +11,39 @@ function App() {
   const [web3, setWeb3] = useState()
   const [address, setAddress] = useState()
   const [lcContract, setLcContract] = useState()
-  const [lotteryBalance, setLotteryBalance] = useState()
+  const [lotteryBalance, setBalance] = useState()
+  const [lotteryPlayers, setPlayers] = useState()
 
   useEffect(()=>{
     /* Check if local lottery contract exists */
     if(lcContract){
       getBalance()
+      getPlayers()
+      console.log(lotteryPlayers)
     }
-  },[lcContract, lotteryBalance])
+  },[lcContract])//recursive
 
   const getBalance = async () => {
     const balance = await lcContract.methods.getBalance().call() //using call since getBalance is read only func
-    setLotteryBalance(web3.utils.fromWei(balance, 'ether'))
+    setBalance(web3.utils.fromWei(balance, 'ether'))
+  }
+
+  const getPlayers = async () => {
+    const players = await lcContract.methods.getPlayers().call()
+    setPlayers(players)
+  }
+
+  const enterLotteryHandler = async () => {
+    try {
+      await lcContract.methods.enter().send({
+        from: address,
+        value: '15000000000000000',
+        gas: 300000,
+        gasPrice: null
+      })
+    } catch(err) {
+      console.log(err.message)
+    }
   }
 
   const connectWalletHandler = async () =>{
@@ -58,8 +79,8 @@ function App() {
     <Container maxWidth="lg">
       <Box>
         <Stack direction="row" spacing={2} justifyContent="space-between">
-          <Sidebar lotteryBalance={lotteryBalance}/>
-          <Rightbar/>
+          <Sidebar lotteryBalance={lotteryBalance} enterLotteryHandler={enterLotteryHandler}/>
+          <Rightbar players={lotteryPlayers}/>
         </Stack>
       </Box>
     </Container>
