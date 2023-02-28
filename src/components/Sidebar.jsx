@@ -1,7 +1,7 @@
 import { Box, Button, Typography } from '@mui/material'
 import React from 'react'
 
-function Sidebar() {
+function Sidebar({lotteryBalance}) {
   return (
     <Box sx={{mt:4}}>
       <Box sx={{mt:2}}>
@@ -15,7 +15,7 @@ function Sidebar() {
       <Typography 
         variant='h2'
         sx={{my:4}}>
-        Pot: 0.28 Ether
+        Pot: {lotteryBalance} Ether
       </Typography>
     </Box>
   )
