@@ -48,6 +48,18 @@ function App() {
     }
   }
 
+  const pickWinnerHandler = async () => {
+    try {
+      await lcContract.methods.pickWinner().send({
+        from: address,
+        gas: 300000,
+        gasPrice: null
+      })
+    } catch(err) {
+      setErrorMsg(err.message)
+    }
+  }
+
   const connectWalletHandler = async () =>{
     setErrorMsg('')
     //check if in browser enviroment && MetaMask is installed
@@ -82,7 +94,7 @@ function App() {
     <Container maxWidth="lg">
       <Box>
         <Stack direction="row" spacing={2} justifyContent="space-between">
-          <Sidebar lotteryBalance={lotteryBalance} enterLotteryHandler={enterLotteryHandler} errorMsg={errorMsg} successMsg={successMsg}/>
+          <Sidebar lotteryBalance={lotteryBalance} enterLotteryHandler={enterLotteryHandler} pickWinnerHandler={pickWinnerHandler} errorMsg={errorMsg} successMsg={successMsg}/>
           <Rightbar players={lotteryPlayers}/>
         </Stack>
       </Box>

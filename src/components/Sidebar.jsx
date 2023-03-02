@@ -1,7 +1,7 @@
 import { Box, Button, Typography } from '@mui/material'
 import React from 'react'
 
-function Sidebar({lotteryBalance, enterLotteryHandler, errorMsg, successMsg}) {
+function Sidebar({lotteryBalance, enterLotteryHandler, pickWinnerHandler, errorMsg, successMsg}) {
   return (
     <Box sx={{mt:4}}>
       <Box sx={{mt:2}}>
@@ -10,7 +10,7 @@ function Sidebar({lotteryBalance, enterLotteryHandler, errorMsg, successMsg}) {
       </Box>
       <Box sx={{mt:2}}>
         <Typography variant='h5'>Admin only: Pick a winner:</Typography>
-        <Button variant="contained">Pick winner    </Button>
+        <Button onClick={pickWinnerHandler} variant="contained">Pick winner    </Button>
       </Box>
       <Typography 
         variant='h2'
