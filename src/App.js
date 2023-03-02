@@ -1,9 +1,10 @@
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import Rightbar from "./components/Rightbar";
-import { Box, Container, Stack } from "@mui/material";
 
 import { useState, useEffect } from 'react'
+import { Box, Container, Stack } from "@mui/material";
+
 import Web3 from 'web3'
 import lotteryContract from './blockchain/lottery'
 
@@ -13,13 +14,14 @@ function App() {
   const [lcContract, setLcContract] = useState()
   const [lotteryBalance, setBalance] = useState()
   const [lotteryPlayers, setPlayers] = useState()
+  const [errorMsg, setErrorMsg] = useState()
+  const [successMsg, setSuccessMsg] = useState()
 
   useEffect(()=>{
     /* Check if local lottery contract exists */
     if(lcContract){
       getBalance()
       getPlayers()
-      console.log(lotteryPlayers)
     }
   },[lcContract])//recursive
 
@@ -42,11 +44,12 @@ function App() {
         gasPrice: null
       })
     } catch(err) {
-      console.log(err.message)
+      setErrorMsg(err.message)
     }
   }
 
   const connectWalletHandler = async () =>{
+    setErrorMsg('')
     //check if in browser enviroment && MetaMask is installed
     if(typeof window != "undefined" && typeof window.ethereum != "undefined"){
       try {
@@ -66,7 +69,7 @@ function App() {
         setLcContract(lc)
 
       } catch(err) {
-        console.log(err.message)
+        setErrorMsg(err.message)
       }
     }else{
       console.log("Please install MetaMask!")
@@ -79,7 +82,7 @@ function App() {
     <Container maxWidth="lg">
       <Box>
         <Stack direction="row" spacing={2} justifyContent="space-between">
-          <Sidebar lotteryBalance={lotteryBalance} enterLotteryHandler={enterLotteryHandler}/>
+          <Sidebar lotteryBalance={lotteryBalance} enterLotteryHandler={enterLotteryHandler} errorMsg={errorMsg} successMsg={successMsg}/>
           <Rightbar players={lotteryPlayers}/>
         </Stack>
       </Box>
