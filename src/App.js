@@ -14,6 +14,8 @@ function App() {
   const [lcContract, setLcContract] = useState()
   const [lotteryBalance, setBalance] = useState()
   const [lotteryPlayers, setPlayers] = useState()
+  const [lotteryHistory, setLotteryHistory] = useState([])
+  const [lotteryId, setLotteryId] = useState()
   const [errorMsg, setErrorMsg] = useState()
   const [successMsg, setSuccessMsg] = useState()
 
@@ -22,6 +24,8 @@ function App() {
     if(lcContract){
       getBalance()
       getPlayers()
+      getHistory()
+      getLotteryId()
     }
   },[lcContract])//recursive
 
@@ -33,6 +37,23 @@ function App() {
   const getPlayers = async () => {
     const players = await lcContract.methods.getPlayers().call()
     setPlayers(players)
+  }
+
+  const getHistory = async (id) => {
+    setLotteryHistory([])
+    for(let i = parseInt(id); i > 0; i--){
+      const winnerAddress = await lcContract.methods.lotteryHistory(i).call();
+      const currLottery = {};
+      currLottery.id = i;
+      currLottery.address = winnerAddress;
+      setLotteryHistory(lotteryHistory => [...lotteryHistory, currLottery])
+    }
+  }
+
+  const getLotteryId = async () => {
+    const lotteryId = await lcContract.methods.lotteryId().call()
+    setLotteryId(lotteryId)
+    await getHistory(lotteryId)
   }
 
   const enterLotteryHandler = async () => {
@@ -80,6 +101,12 @@ function App() {
         const lc = lotteryContract(web3)
         setLcContract(lc)
 
+        window.ethereum.on('accountsChanged', async () => {
+          const accounts = await web3.eth.getAccounts()
+          console.log(accounts[0])
+          /* set account 1 to React state */
+          setAddress(accounts[0])
+        })
       } catch(err) {
         setErrorMsg(err.message)
       }
@@ -95,7 +122,7 @@ function App() {
       <Box>
         <Stack direction="row" spacing={2} justifyContent="space-between">
           <Sidebar lotteryBalance={lotteryBalance} enterLotteryHandler={enterLotteryHandler} pickWinnerHandler={pickWinnerHandler} errorMsg={errorMsg} successMsg={successMsg}/>
-          <Rightbar players={lotteryPlayers}/>
+          <Rightbar lotteryHistory={lotteryHistory} players={lotteryPlayers}/>
         </Stack>
       </Box>
     </Container>
