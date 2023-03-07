@@ -76,6 +76,8 @@ function App() {
         gas: 300000,
         gasPrice: null
       })
+      const winnerAddress = await lcContract.methods.lotteryHistory(lotteryId).call()
+      setSuccessMsg(`The winner is ${winnerAddress}`)
     } catch(err) {
       setErrorMsg(err.message)
     }
