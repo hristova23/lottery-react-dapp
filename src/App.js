@@ -22,12 +22,16 @@ function App() {
   useEffect(()=>{
     /* Check if local lottery contract exists */
     if(lcContract){
-      getBalance()
-      getPlayers()
-      getHistory()
-      getLotteryId()
+      updateState()
     }
   },[lcContract])//recursive
+
+  const updateState = () => {
+    getBalance()
+    getPlayers()
+    getHistory()
+    getLotteryId()
+  }
 
   const getBalance = async () => {
     const balance = await lcContract.methods.getBalance().call() //using call since getBalance is read only func
@@ -57,6 +61,7 @@ function App() {
   }
 
   const enterLotteryHandler = async () => {
+    setErrorMsg('')
     try {
       await lcContract.methods.enter().send({
         from: address,
@@ -64,12 +69,14 @@ function App() {
         gas: 300000,
         gasPrice: null
       })
+      updateState()
     } catch(err) {
       setErrorMsg(err.message)
     }
   }
 
   const pickWinnerHandler = async () => {
+    setErrorMsg('')
     try {
       await lcContract.methods.pickWinner().send({
         from: address,
@@ -77,9 +84,10 @@ function App() {
         gasPrice: null
       })
       const winnerAddress = await lcContract.methods.lotteryHistory(lotteryId).call()
-      setSuccessMsg(`The winner is ${winnerAddress}`)
+      setSuccessMsg(`The winner is: ${winnerAddress}`)
+      updateState()
     } catch(err) {
-      setErrorMsg(err.message)
+      setErrorMsg("Transaction failed. Operation available only for owner.")
     }
   }
 
@@ -105,7 +113,6 @@ function App() {
 
         window.ethereum.on('accountsChanged', async () => {
           const accounts = await web3.eth.getAccounts()
-          console.log(accounts[0])
           /* set account 1 to React state */
           setAddress(accounts[0])
         })
@@ -113,7 +120,7 @@ function App() {
         setErrorMsg(err.message)
       }
     }else{
-      console.log("Please install MetaMask!")
+      setErrorMsg("Please install MetaMask!")
     }
   }
 
