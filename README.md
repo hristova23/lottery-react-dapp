@@ -10,8 +10,8 @@ A simple fully responsive decentralized react lottery web app
 
 ## Description
 
-Build with React and MUI. Uses a smart contract written in Solidity and published on the ethereum blockchain. 
-Users can connect their metamask wallet and enter the lottery by sending 0.001 Ether. (After X-amount of time) a winner will be selected at random and recive all the collected currency. It is fully open source and let you take advantage of the decentralized nature of blockchain.
+Build with React and MUI. Uses a smart contract written in Solidity and published on the ethereum testnet. 
+Users can connect their metamask wallet and enter the lottery by sending 0.001 Goerli ETH (you can get test eth with goerli faucet). After the owner of the contract click the "pick a winner" btn a winner will be selected at random and recive all the collected currency. The project is fully open source and let you take advantage of the decentralized nature of blockchain.
 
 ## Built With
 
@@ -35,11 +35,6 @@ npm start
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `pages/index.jsx`. The page auto-updates as you edit the file.
-
-### Dependencies
-
-* Any prerequisites, libraries, OS version, etc., needed before installing program.
-* ex. Windows 10
 
 ## Help
 
